@@ -27,6 +27,8 @@ Use the help menu to explore what the series `gold`, `woolyrnq` and `gas` repres
 
 ```{r, echo=TRUE, cache=TRUE, eval=FALSE}
 help(gold)
+help(woolyrnq)
+help(gas)
 # to do
 
 ```
@@ -35,15 +37,22 @@ Use `autoplot` to plot each of these in separate plots.
 
 ```{r, echo=TRUE, cache=TRUE}
 # to do
-
+autoplot(gold)
+autoplot(woolyrnq)
+autoplot(gas)
 ```
 
 **What is the frequency of each commodity series?**
 Hint: apply the `frequency()` function.
 
+Gold: täglich
+wool: quartal
+gas: monatlich
 ```{r, echo=TRUE, cache=TRUE}
 # to do
-
+frequency(gold)
+frequency(woolyrnq)
+frequency(gas)
 ```
 
 Use `which.max()` to spot the outlier in the `gold` series. 
@@ -51,6 +60,8 @@ Use `which.max()` to spot the outlier in the `gold` series.
 
 ```{r, echo=TRUE, cache=TRUE}
 # to do
+which.max(gold)
+gold[which.max(gold)]
 
 ```
 
@@ -73,16 +84,16 @@ mytimeseries <- ts(tute1[, -1], start = 1981, frequency = 4)
 
 Construct time series plots of each of the three series and use 'facets = TRUE' .
 
-```{r, echo=TRUE, cache=TRUE}
+```{r, echo=TRUE, cache=TRUE, facets = TRUE}
 # to do
-
+autoplot(mytimeseries, facets = TRUE)
 ```
 
 Check what happens when you don't include `facets=TRUE`.
 
 ```{r, echo=TRUE, cache=TRUE, dependson="exmyts"}
 # to do
-
+autoplot(mytimeseries)
 ```
 
 # Exercise 3
@@ -93,6 +104,7 @@ You can read the data into R with the following script:
 
 ```{r, echo=TRUE, cache=TRUE}
 retaildata <- readxl::read_excel("data/retail.xlsx", skip = 1)
+View(retaildata)
 ```
 
 The second argument (`skip=1`) is required because the Excel sheet has two header rows.
@@ -100,19 +112,26 @@ The second argument (`skip=1`) is required because the Excel sheet has two heade
 Select one of the time series as follows (but replace the column name with your own chosen column):
 
 ```{r, echo=TRUE, cache=TRUE}
-myts <- ts(retaildata[, "A3349873A"], frequency = 12, start = c(1982, 4))
+myts <- ts(retaildata[, "A3349335T"], frequency = 12, start = c(1982, 4))
 ```
 
 Explore your chosen retail time series using the following functions: `autoplot`, `ggseasonplot`, `ggsubseriesplot`, `gglagplot`, `ggAcf`
 
 ```{r, echo=TRUE, cache=TRUE}
 # to do
-
+autoplot(myts)
+ggseasonplot(myts)
+ggsubseriesplot(myts)
+gglagplot(myts)
+ggAcf(myts)
 ```
 
 **Can you spot any seasonality, cyclicity and trend? What do you learn about the series?**
 
 Your answer:
+Seasonality: Der Monat Dezember hat immer jedes Jahr einen höhreren Ausschlag (warsch. Weihnachtsgeschäft).
+Cyclic: -
+Trend: Die Absatzzahlen steigen über die Jahre an.
 
 
 # Exercise 4
@@ -123,7 +142,17 @@ Create time plots of the following time series: goog, writing, fancy, a10, h02.
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 # to do
+help(goog)
+help(writing)
+help(fancy)
+help(a10)
+help(h02)
 
+autoplot(goog, xlab = "Consecutive trading days", ylab = "Stockprice", main = "Daily closing stock prices")
+autoplot(writing)
+autoplot(fancy)
+autoplot(a10)
+autoplot(h02)
 ```
 
 Use the `ggseasonplot` and `ggsubseriesplot` functions to explore the seasonal patterns in the following time series:  `writing`, `fancy`, `a10`, `h02`.
@@ -135,37 +164,49 @@ Use the `ggseasonplot` and `ggsubseriesplot` functions to explore the seasonal p
 ```{r, echo=TRUE}
 # writing
 # to do
-
+help(writing)
+ggseasonplot(writing)
+ggsubseriesplot(writing)
 ```
 
 Your answer:
+Immer im August bricht der Absatz der Schreibwaren start ein -> Sommerferien
 
 
 ```{r, echo=TRUE}
 # fancy
 # to do
-
+help(fancy)
+ggseasonplot(fancy)
+ggsubseriesplot(fancy)
 ```
 
-Your answer:#
+Your answer:
+Im Dezember nehmen die Absatzzahlen der Souvenire stark zu. Im trend nehmen die Absatzzahlen jedes Jahr zu. Warscheinlich Ferienzeit über die Feiertage.
 
 
 ```{r, echo=TRUE}
 # a10
 # to do
-
+help(a10)
+ggseasonplot(a10)
+ggsubseriesplot(a10)
 ```
 
 Your answer:
+Im Monat Januar werden deutlich mehr Diabetiker Medikamente subventioniert. Warscheinlich nedingt durch die Feiertage (Weihnachten, Silvester) im Monat davor
 
 
 ```{r, echo=TRUE}
 # h02
 # to do
-
+help(h02)
+ggseasonplot(h02)
+ggsubseriesplot(h02)
 ```
 
 Your answer:
+Nimmt stetig von Februar bis im folgejahr Januar zu und fällt dann wieder stark ab. Jährliche wiederholung.
 
 
 # Exercise 5
@@ -191,35 +232,70 @@ ggAcf(hsales)
 
 ```{r, echo=TRUE, cache=TRUE}
 # to do
-
+#usdeaths
+autoplot(usdeaths)
+ggseasonplot(usdeaths)
+ggsubseriesplot(usdeaths)
+gglagplot(usdeaths)
+ggAcf(usdeaths)
 ```
 
 Your answer:
++Seasonality: ja erkennbar
++Cyclicity: nein
++Trend: nein
++Learned about Series: jährlicher wiederholender Zyklus mit Peak im Juli und low im Februar
 
 
 ```{r, echo=TRUE, cache=TRUE}
 # to do
-
+#bricksq
+help(bricksq)
+autoplot(bricksq)
+ggseasonplot(bricksq)
+ggsubseriesplot(bricksq)
+gglagplot(bricksq, lags = 20)
+ggAcf(bricksq)
 ```
 
 Your answer:
-
++Seasonality: ja
++Cyclicity: ja
++Trend: ja
++Learned about Data: In den Daten erkennt man im Seasonal, subseries und Acf plot eine Seasonality -> Zuhname Q1 - Q3, danach Abnahme. Der Tend nimmt allgmein zu, wird aber in den Jahren 75, 83 und 91 von einer Cyclicity unterbrochen
 
 ```{r, echo=TRUE, cache=TRUE}
 # to do
-
+#sunspotarea
+help(sunspotarea)
+autoplot(sunspotarea)
+#ggseasonplot(sunspotarea)
+#ggsubseriesplot(sunspotarea)
+gglagplot(sunspotarea, , lags = 20)
+ggAcf(sunspotarea, , lag.max = 70)
 ```
 
 Your answer:
-
++Seasonality: ja
++Cyclicity:nein
++Trend: nein
++Learned about Data: Trotz des größeren Zeitraumes von 2 Jahren kann hier von einer "Seasonality" gesprochen werden, da der Zyklus konstant (10,5) Jahre ist. Besonders gut erkennbar im Lagplot. Trend steigend bis 1960 danach sinkend
 
 ```{r, echo=TRUE, cache=TRUE}
 # to do
-
+#gasoline
+autoplot(gasoline)
+ggseasonplot(gasoline)
+#ggsubseriesplot(gasoline)
+gglagplot(gasoline)
+ggAcf(gasoline, lag.max = 209)
 ```
 
 Your answer:
-
++Seasonality: ja
++Cyclicity: ja
++Trend: ja
++Learned about Data: Im Acf erkennt man deutlich die Seasonality. 6 Monate fallend und 6 monate Steigend. Im autoplot erkennt man sowohl den Steigenden Trend als auch eine Cyclicity, steigend 1991 bis 2008, dann fallend von 2008 bis 2013 und dann wieder steigend. Die fallenden Werte von 2008 bis 2013 sind warscheinlich bedingt durch die Wirtschaftskriese.
 
 # Exercise 6
 
@@ -239,10 +315,16 @@ ggAcf(y)
 
 ```{r, echo=TRUE, cache=TRUE}
 # todo
-
+mypigs <- window(pigs, start=1990)
+```
+```{r}
+autoplot(mypigs)
+ggAcf(mypigs)
 ```
 
 Your answer:
+Die Werte der Lags 1-3 überschreiten die Grenze und Zeigen Autocorrelation die nichtmehr durch White Noice erzeugt werden kann.
+Lag 12 und 16 sind stärkere ausschläge und könne Anzeichen für eine Seasonalität sein.
 
 
 # Exercise 7
@@ -251,8 +333,14 @@ Your answer:
 
 ```{r}
 # todo
-
+help(dj)
+autoplot(dj)
+```
+```{r}
+ddj <- diff(dj)
+autoplot(ddj)
+ggAcf(ddj, lag.max = 250)
 ```
 
 Your answer:
-
+Der Acf Plot ähnelt schon sehr stark dem von White Noice, dennoch wird die Linie an einigen Stellen überschritten.
