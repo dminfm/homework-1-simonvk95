@@ -33,7 +33,22 @@ For the following series, find an appropriate Box-Cox (?BoxCox) transformation i
 
 ```{r}
 # todo
- 
+autoplot(usnetelec)
+lambda = BoxCox.lambda(usnetelec)
+autoplot(BoxCox(usnetelec, lambda))
+
+autoplot(usgdp)
+lambda = BoxCox.lambda(usgdp)
+autoplot(BoxCox(usgdp, lambda))
+
+
+autoplot(mcopper)
+lambda = BoxCox.lambda(mcopper)
+autoplot(BoxCox(mcopper, lambda))
+
+autoplot(enplanements)
+lambda = BoxCox.lambda(enplanements)
+autoplot(BoxCox(enplanements, lambda))
 ```
 
 
@@ -43,15 +58,16 @@ Why is a Box-Cox transformation unhelpful for the `cangas` data?
 
 ```{r}
 # todo
- 
+autoplot(cangas)
 ```
 Your answer:
-
+Nein, eine Box-Cox transformation ist für den Fall gedacht, dass ide Varianz über die Zeit fällt oder sinkt.
+Bei 'cangas' hat die Varianz aber einen 'Bauch' d.h. am Anfang ist sie gut, wird dann Schlechter und am Ende wieder besser, also kein kostanter Trend.
 
 
 # Exercise 3
 
-What Box-Cox transformation would you select for **your** retail data from Exercise 4 in Visualization?
+What Box-Cox transformation would you select for **your** retail data from Exercise 4 (3?) in Visualization?
 
 ```{r}
 # Example 
@@ -66,6 +82,18 @@ From visual inspection, a log transformation would be appropriate here. It also 
 If you have selected a different series from the retail data set, you might choose a different transformation.
 
 Your answer:
+```{r}
+retaildata <- readxl::read_excel("data/retail.xlsx", skip=1)
+myts <- ts(retaildata[, "A3349335T"], frequency = 12, start = c(1982, 4))
+
+autoplot(myts)
+
+lambda = BoxCox.lambda(myts)
+autoplot(BoxCox(myts, lambda))
+
+print(lambda)
+```
+Im Grunde lassen sich die eigenen Daten gleich erklären wie die aus dem Beispiel. Der Wert steigt mit der Zahl der Bevölkerung an. Dementsprechend fallen auch die Sesonalen Peaks bei höheren werten proportional höher aus. Der log gleicht ides am besten aus. Der autowert von lambda liegt auch bei 0,19 was am ehsten einem log entspricht.
 
 
 # Exercise 4
@@ -74,7 +102,16 @@ Calculate the residuals (?residuals) from a seasonal naive forecast applied to t
 
 ```{r}
 # todo
- 
+help(ausbeer)
+autoplot(ausbeer)
+
+beer <- as_tsibble(beer)
+
+beer %>% model(SNAIVE(ausbeer ~ lag("year")))
+
+autoplot(beer) +
+  autolayer(naive(beer2, h=11))
+
 ```
 
 Test if the residuals are white noise and normally distributed.
