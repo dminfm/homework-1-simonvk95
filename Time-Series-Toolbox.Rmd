@@ -451,7 +451,7 @@ Check the residuals of your preferred method. Do they resemble white noise?
 
 ```{r eval = FALSE}
 # remove eval=FALSE
-checkresiduals(sn.f)
+checkresiduals(s.f)
 ```
-
+Kein White Noice. Zwar wird die Schwelle bei der Korrelatio nicht überschritten, allerdings kann man einen Trend erkennen, der von anfangs sehr positiv ins negative läuft..
 
